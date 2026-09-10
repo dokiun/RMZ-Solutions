@@ -1,23 +1,6 @@
-const commercialImages = [
-  '20260602_112019.jpg', '20260602_111951.jpg', '20260507_181032.jpg',
-  '20260507_145043.jpg', '20251219_150345.jpg', '20251112_153004.jpg',
-  '20251112_152955.jpg', '20251106_153656.jpg', '20251104_164857.jpg',
-  '20251028_085332.jpg', '20251018_181805.jpg', '20251009_182513.jpg'
-];
+import { galleryImages } from './gallery-images.js';
 
-const residentialImages = [
-  'IMG-20260331-WA0045.jpg', '20260625_160259.jpg', '20260425_140807.jpg',
-  '20260328_153251.jpg', '20260320_102956.jpg', '20260317_120124.jpg',
-  '20260204_100907.jpg', '20260203_173954.jpg', '20260102_145358.jpg',
-  '20251230_122827.jpg', '20251212_140251.jpg', '20251210_163909.jpg'
-];
-
-const solarImages = [
-  'IMG-20260412-WA0065.jpg', 'IMG-20260331-WA0055.jpg', 'IMG-20260331-WA0025.jpg',
-  'IMG-20250530-WA0013.jpg', 'IMG-20250523-WA0020.jpg', 'IMG-20250520-WA0003.jpg',
-  'IMG-20240606-WA0012.jpg', '20260417_112621.jpg', '20260416_162442.jpg',
-  '20260416_162317.jpg', '20260410_191545.jpg', '20260409_143607.jpg'
-];
+const { commercial: commercialImages, residential: residentialImages, solar: solarImages } = galleryImages;
 
 const gallery = (category, images) => Array.from({ length: 6 }, (_, index) => {
   const file = images[index];

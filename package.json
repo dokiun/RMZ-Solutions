@@ -4,8 +4,10 @@
   "description": "RMZ Solutions - Electrical Contractor Website",
   "main": "src/index.js",
   "scripts": {
+    "predev": "node scripts/generate-gallery-manifest.mjs",
     "dev": "vite",
     "start": "vite preview",
+    "prebuild": "node scripts/generate-gallery-manifest.mjs",
     "build": "vite build",
     "preview": "vite preview"
   },
