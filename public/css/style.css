@@ -184,6 +184,14 @@ nav {
   max-width: 760px;
 }
 
+.work-description {
+  max-width: 760px;
+  margin: 0 auto 2rem;
+  text-align: center;
+  color: var(--gray-500);
+  font-size: 16px;
+}
+
 /* SERVICES */
 .services {
   display: grid;
