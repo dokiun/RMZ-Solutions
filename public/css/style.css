@@ -247,14 +247,6 @@ nav {
   margin: 0 auto;
 }
 
-.work-gallery {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  max-width: 760px;
-  margin: 0 auto;
-}
-
 .work-slot {
   aspect-ratio: 4/3;
   background: var(--gray-100);
@@ -272,11 +264,13 @@ nav {
   object-fit: cover;
   border-radius: var(--radius-md);
   opacity: 1;
-  transition: opacity 450ms ease;
+  filter: blur(0);
+  transition: opacity 0.7s ease, filter 0.7s ease;
 }
 
-.gallery-slot.is-changing img {
-  opacity: 0;
+.work-slot img.is-changing {
+  opacity: 0.15;
+  filter: blur(10px);
 }
 
 .work-slot-label {
