@@ -385,7 +385,7 @@ nav {
 }
 
 .home-photo-track.is-ready:not(.is-static) {
-  animation: home-photo-scroll 150s linear infinite;
+  animation: home-photo-scroll 240s linear infinite;
 }
 
 .home-photo-marquee:hover .home-photo-track,
@@ -395,7 +395,7 @@ nav {
 
 @keyframes home-photo-scroll {
   from { transform: translateX(0); }
-  to { transform: translateX(calc(-50% - 6px)); }
+  to { transform: translateX(calc(var(--home-loop-distance, 0px) * -1)); }
 }
 
 .home-photo-track.is-static {

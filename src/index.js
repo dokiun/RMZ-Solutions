@@ -44,11 +44,20 @@ const renderHomeCarousel = () => {
   const updateMotion = () => {
     track.classList.toggle('is-static', reducedMotion.matches);
   };
+  const updateLoopDistance = () => {
+    const secondSequenceStart = track.children[sequence.length];
+    if (secondSequenceStart) {
+      track.style.setProperty('--home-loop-distance', `${secondSequenceStart.offsetLeft}px`);
+    }
+  };
   updateMotion();
+  updateLoopDistance();
   reducedMotion.addEventListener('change', updateMotion);
   Promise.all([...track.querySelectorAll('img')].map(imageReady)).then(() => {
+    updateLoopDistance();
     track.classList.add('is-ready');
   });
+  window.addEventListener('resize', updateLoopDistance);
 };
 
 const workPage = `
