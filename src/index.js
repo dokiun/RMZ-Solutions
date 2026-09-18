@@ -32,6 +32,7 @@ if (window.location.pathname.replace(/\/+$/, '') === '/work') {
 
   const imageSets = { commercial: commercialImages, residential: residentialImages, solar: solarImages };
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
   const slotsByCategory = new Map();
   const pendingIndexesByCategory = new Map();
 
@@ -59,6 +60,7 @@ if (window.location.pathname.replace(/\/+$/, '') === '/work') {
     slotsByCategory.set(category, slots);
 
     slot.addEventListener('click', () => {
+      if (finePointer.matches) return;
       const expanded = slot.classList.toggle('is-expanded');
       slot.setAttribute('aria-pressed', String(expanded));
     });
