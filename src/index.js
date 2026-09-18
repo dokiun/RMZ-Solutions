@@ -20,6 +20,40 @@ const homeCarouselImages = [
 
 const shuffle = (items) => [...items].sort(() => Math.random() - 0.5);
 
+const estimateForm = `
+  <form class="estimate-form" action="https://formsubmit.co/rmzsolutionsllc@gmail.com" method="POST">
+    <input type="hidden" name="_subject" value="New estimate request from RMZ Solutions website">
+    <input type="hidden" name="_template" value="table">
+    <input type="hidden" name="_next" value="https://rmzsolutionsutah.com/thanks.html">
+    <div class="estimate-honeypot" aria-hidden="true">
+      <label for="work-website">Leave this field empty</label>
+      <input id="work-website" type="text" name="_honey" tabindex="-1" autocomplete="off">
+    </div>
+    <div class="estimate-fields">
+      <div class="estimate-field">
+        <label for="work-estimate-name">Name</label>
+        <input id="work-estimate-name" name="name" type="text" autocomplete="name" maxlength="100" required>
+      </div>
+      <div class="estimate-field">
+        <label for="work-estimate-email">Email</label>
+        <input id="work-estimate-email" name="email" type="email" autocomplete="email" maxlength="160" required>
+      </div>
+      <div class="estimate-field">
+        <label for="work-estimate-phone">Phone</label>
+        <input id="work-estimate-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" maxlength="30" required>
+      </div>
+      <div class="estimate-field">
+        <label for="work-estimate-city">City</label>
+        <input id="work-estimate-city" name="city" type="text" autocomplete="address-level2" maxlength="80" required>
+      </div>
+      <div class="estimate-field estimate-field-wide">
+        <label for="work-estimate-description">Describe the work</label>
+        <textarea id="work-estimate-description" name="description" rows="5" maxlength="2000" required></textarea>
+      </div>
+    </div>
+    <button class="btn-white estimate-submit" type="submit">Request a free estimate</button>
+  </form>`;
+
 const renderHomeCarousel = () => {
   const carousel = document.querySelector('#home-carousel');
   if (!carousel) return;
@@ -70,7 +104,7 @@ const workPage = `
   <section class="section"><p class="section-label">Residential Electrical</p><p class="work-description">New construction, remodels, service upgrades, and EV chargers — all permitted and NEC-compliant. We specialize in bringing homes up to modern electrical standards with attention to safety and efficiency.</p><div class="work-grid">${gallery('residential', residentialImages)}</div></section>
   <section class="section"><p class="section-label">Renewable Energy</p><p class="work-description">Solar panel installations, battery storage systems, and grid-tie solutions. We help customers transition to clean energy with professionally installed systems designed for long-term performance and reliability.</p><div class="work-grid">${gallery('solar', solarImages)}</div></section>
   <!-- Home Renovations temporarily hidden until project photos are added. -->
-  <div class="contact-block" id="contact"><h2>Let's talk about your project</h2><p>We respond to all requests within one business day.<br>Serving Utah County, Salt Lake County, and surrounding areas.</p><div class="contact-info"><a href="tel:+13854970937" class="contact-item">+1 385-497-0937</a><a href="mailto:rmzsolutionsllc@gmail.com" class="contact-item">rmzsolutionsllc@gmail.com</a></div><a href="mailto:rmzsolutionsllc@gmail.com" class="btn-white">Request a free estimate</a></div>
+  <div class="contact-block" id="contact"><h2>Let's talk about your project</h2><p>We respond to all requests within one business day.<br>Serving Utah County, Salt Lake County, and surrounding areas.</p><div class="contact-info"><a href="tel:+13854970937" class="contact-item">+1 385-497-0937</a><a href="mailto:rmzsolutionsllc@gmail.com" class="contact-item">rmzsolutionsllc@gmail.com</a></div>${estimateForm}</div>
   <footer><span>© 2026 RMZ Solutions LLC · Orem, UT</span><span class="footer-license">DOPL #14299094-5501 · E200 &amp; B100</span><span>Licensed &amp; Insured</span></footer>
 `;
 
