@@ -12,6 +12,35 @@ const gallery = (category, images) => Array.from({ length: 6 }, (_, index) => {
   </button>`;
 }).join('');
 
+const homeCarouselImages = [
+  ...commercialImages.slice(0, 4).map((file) => ['commercial', file, 'Commercial electrical project']),
+  ...residentialImages.slice(0, 4).map((file) => ['residential', file, 'Residential electrical project']),
+  ...solarImages.slice(0, 4).map((file) => ['solar', file, 'Solar installation project']),
+];
+
+const shuffle = (items) => [...items].sort(() => Math.random() - 0.5);
+
+const renderHomeCarousel = () => {
+  const carousel = document.querySelector('#home-carousel');
+  if (!carousel) return;
+
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const track = carousel.querySelector('[data-photo-track]');
+  const sequence = shuffle(homeCarouselImages);
+  const cards = sequence.map(([category, file, alt], index) => `
+    <a class="home-photo-card" href="/work/" aria-label="View ${alt.toLowerCase()} in the full gallery">
+      <img src="/images/${category}/${file}" alt="${alt}"${index > 2 ? ' loading="lazy"' : ''}>
+    </a>
+  `).join('');
+  track.innerHTML = `${cards}${cards}`;
+
+  const updateMotion = () => {
+    track.classList.toggle('is-static', reducedMotion.matches);
+  };
+  updateMotion();
+  reducedMotion.addEventListener('change', updateMotion);
+};
+
 const workPage = `
   <nav>
     <a href="/" class="logo"><img src="/images/logo.png" alt="RMZ Solutions Logo" /></a>
@@ -38,8 +67,8 @@ if (window.location.pathname.replace(/\/+$/, '') === '/work') {
 
   const rememberNaturalSize = (image) => {
     if (!image.naturalWidth || !image.naturalHeight) return;
-    const maxWidth = Math.min(window.innerWidth * 0.8, 760);
-    const maxHeight = Math.min(window.innerHeight * 0.8, 760);
+    const maxWidth = Math.min(window.innerWidth * 0.68, 620);
+    const maxHeight = Math.min(window.innerHeight * 0.68, 620);
     const scale = Math.min(1, maxWidth / image.naturalWidth, maxHeight / image.naturalHeight);
     image.style.setProperty('--natural-width', `${image.naturalWidth}px`);
     image.style.setProperty('--natural-height', `${image.naturalHeight}px`);
@@ -145,6 +174,10 @@ if (window.location.pathname.replace(/\/+$/, '') === '/work') {
   window.addEventListener('resize', () => {
     document.querySelectorAll('.gallery-image').forEach(rememberNaturalSize);
   });
+}
+
+if (window.location.pathname.replace(/\/+$/, '') === '') {
+  renderHomeCarousel();
 }
 
 document.querySelectorAll('a[href^="#"], a[href^="/#"]').forEach((anchor) => {

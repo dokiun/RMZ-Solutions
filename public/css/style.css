@@ -338,15 +338,86 @@ nav {
   }
 }
 
+@media (max-width: 600px) {
+  .work-slot.is-expanded .gallery-image,
+  .work-slot:focus-visible .gallery-image {
+    position: fixed;
+    inset: auto;
+    top: 50%;
+    left: 50%;
+    width: var(--expanded-width, min(68vw, 760px));
+    height: var(--expanded-height, min(68vh, 760px));
+    max-width: calc(100vw - 24px);
+    max-height: calc(100vh - 24px);
+    transform: translate(-50%, -50%);
+  }
+}
+
 .work-slot-label {
   font-size: 12px;
   color: var(--gray-500);
 }
 
+/* HOME PROJECT CAROUSEL */
+.home-carousel {
+  max-width: 760px;
+  margin: 0 auto 2rem;
+}
+
+.home-photo-marquee {
+  overflow: hidden;
+  padding: 0.25rem 0;
+}
+
+.home-photo-track {
+  display: flex;
+  width: max-content;
+  gap: 12px;
+  animation: home-photo-scroll 42s linear infinite;
+  will-change: transform;
+}
+
+.home-photo-marquee:hover .home-photo-track,
+.home-photo-track:focus-within {
+  animation-play-state: paused;
+}
+
+@keyframes home-photo-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(calc(-50% - 6px)); }
+}
+
+.home-photo-track.is-static {
+  animation: none;
+}
+
+.home-photo-card {
+  display: block;
+  flex: 0 0 clamp(132px, 18vw, 170px);
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  border-radius: 14px;
+  background: var(--gray-100);
+  border: 1px solid var(--gray-200);
+}
+
+.home-photo-card img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.home-photo-card:focus-visible {
+  outline: 2px solid var(--black);
+  outline-offset: 4px;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .gallery-image,
-  .work-slot {
-    transition: none;
+  .work-slot,
+  .home-photo-track {
+    animation: none;
   }
 }
 
@@ -442,6 +513,24 @@ footer span {
   .section { padding: 2.5rem 1rem; }
   .services { grid-template-columns: 1fr; }
   .work-grid { grid-template-columns: repeat(2, 1fr); }
+  .home-carousel {
+    margin-right: -1rem;
+    margin-left: -1rem;
+  }
+  .home-photo-marquee {
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+    touch-action: pan-x;
+  }
+  .home-photo-marquee::-webkit-scrollbar { display: none; }
+  .home-photo-track {
+    animation-duration: 48s;
+  }
+  .home-photo-marquee:hover .home-photo-track,
+  .home-photo-track:focus-within {
+    animation-play-state: running;
+  }
   .contact-block { width: calc(100% - 2rem); margin: 0 1rem 2.5rem; padding: 2rem 1.25rem; }
   .contact-info { flex-direction: column; align-items: center; gap: 1rem; }
   footer { padding: 1.25rem 1rem; }
