@@ -8,14 +8,20 @@
   <link rel="icon" type="image/png" sizes="256x256" href="/images/favicon.png?v=20260918-3" />
   <link rel="stylesheet" href="/css/style.css?v=20260918-4" />
 </head>
-<body>
+<body class="confirmation-body">
   <main class="confirmation-page" aria-labelledby="confirmation-title">
-    <div class="confirmation-block">
-      <img src="/images/logo.png" alt="RMZ Solutions" class="confirmation-logo" />
-      <p class="section-label">Request received</p>
-      <h1 id="confirmation-title">Thanks for reaching out.</h1>
-      <p>We received your estimate request and will respond within one business day.</p>
-      <a class="btn-primary" href="/">Return to RMZ Solutions</a>
+    <div class="confirmation-shell">
+      <a class="confirmation-brand" href="/" aria-label="Return to RMZ Solutions home">
+        <img src="/images/logo.png" alt="RMZ Solutions" class="confirmation-logo" />
+      </a>
+      <div class="confirmation-block">
+        <div class="confirmation-mark" aria-hidden="true">&#10003;</div>
+        <p class="confirmation-eyebrow">Request received</p>
+        <h1 id="confirmation-title">We&apos;ll be in touch.</h1>
+        <p class="confirmation-copy">Your estimate request has been sent to our team. We&apos;ll review the details and respond within one business day.</p>
+        <a class="btn-primary confirmation-button" href="/">Return to RMZ Solutions</a>
+      </div>
+      <p class="confirmation-note">RMZ Solutions LLC &middot; Serving Utah County, Salt Lake County, and surrounding areas.</p>
     </div>
   </main>
 </body>

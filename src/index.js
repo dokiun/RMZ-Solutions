@@ -21,7 +21,7 @@ const homeCarouselImages = [
 const shuffle = (items) => [...items].sort(() => Math.random() - 0.5);
 
 const estimateForm = `
-  <form class="estimate-form" action="https://formsubmit.co/rmzsolutionsllc@gmail.com" method="POST">
+  <form class="estimate-form" action="https://formsubmit.co/65f3be1179c5c2ff30f414fb11de2623" method="POST">
     <input type="hidden" name="_subject" value="New estimate request from RMZ Solutions website">
     <input type="hidden" name="_template" value="table">
     <input type="hidden" name="_next" value="https://rmzsolutionsutah.com/thanks.html">
