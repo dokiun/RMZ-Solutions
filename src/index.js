@@ -5,8 +5,10 @@ const { commercial: commercialImages, residential: residentialImages, solar: sol
 const gallery = (category, images) => Array.from({ length: 6 }, (_, index) => {
   const file = images[index];
   return `<button class="work-slot" type="button" data-gallery="${category}" data-index="${index}" aria-pressed="false" aria-label="View ${category} project photo">
-    <img class="gallery-image" data-layer="0" src="/images/${category}/${file}" alt="${category} electrical project">
-    <img class="gallery-image" data-layer="1" alt="" aria-hidden="true">
+    <span class="gallery-media">
+      <img class="gallery-image" data-layer="0" src="/images/${category}/${file}" alt="${category} electrical project">
+      <img class="gallery-image" data-layer="1" alt="" aria-hidden="true">
+    </span>
   </button>`;
 }).join('');
 
@@ -32,6 +34,17 @@ if (window.location.pathname.replace(/\/+$/, '') === '/work') {
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const slotsByCategory = new Map();
   const pendingIndexesByCategory = new Map();
+
+  const rememberNaturalSize = (image) => {
+    if (!image.naturalWidth || !image.naturalHeight) return;
+    const maxWidth = Math.min(window.innerWidth * 0.8, 760);
+    const maxHeight = Math.min(window.innerHeight * 0.8, 760);
+    const scale = Math.min(1, maxWidth / image.naturalWidth, maxHeight / image.naturalHeight);
+    image.style.setProperty('--natural-width', `${image.naturalWidth}px`);
+    image.style.setProperty('--natural-height', `${image.naturalHeight}px`);
+    image.style.setProperty('--expanded-width', `${image.naturalWidth * scale}px`);
+    image.style.setProperty('--expanded-height', `${image.naturalHeight * scale}px`);
+  };
 
   document.querySelectorAll('[data-gallery]').forEach((slot) => {
     const category = slot.dataset.gallery;
@@ -84,6 +97,7 @@ if (window.location.pathname.replace(/\/+$/, '') === '/work') {
 
     nextImage.onload = () => {
       pendingIndexes.delete(nextIndex);
+      rememberNaturalSize(nextImage);
       nextImage.alt = `${category} electrical project`;
       nextImage.removeAttribute('aria-hidden');
       slotState.element.dataset.activeLayer = String(nextLayer);
@@ -101,12 +115,17 @@ if (window.location.pathname.replace(/\/+$/, '') === '/work') {
       pendingIndexes.delete(nextIndex);
       scheduleRotation(slotState);
     };
+    nextImage.addEventListener('load', () => rememberNaturalSize(nextImage), { once: true });
     nextImage.src = nextSrc;
   };
 
   slotsByCategory.forEach((slots) => {
     slots.forEach((slotState, index) => {
       slotState.element.dataset.activeLayer = '0';
+      slotState.element.querySelectorAll('.gallery-image').forEach((image) => {
+        if (image.complete) rememberNaturalSize(image);
+        else image.addEventListener('load', () => rememberNaturalSize(image), { once: true });
+      });
       scheduleRotation(slotState, 8000 + index * 650 + Math.random() * 3000);
     });
   });
@@ -119,6 +138,10 @@ if (window.location.pathname.replace(/\/+$/, '') === '/work') {
         scheduleRotation(slotState);
       }
     }));
+  });
+
+  window.addEventListener('resize', () => {
+    document.querySelectorAll('.gallery-image').forEach(rememberNaturalSize);
   });
 }
 
