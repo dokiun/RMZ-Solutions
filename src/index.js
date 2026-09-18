@@ -4,7 +4,10 @@ const { commercial: commercialImages, residential: residentialImages, solar: sol
 
 const gallery = (category, images) => Array.from({ length: 6 }, (_, index) => {
   const file = images[index];
-  return `<div class="work-slot"><img data-gallery="${category}" data-index="${index}" src="/images/${category}/${file}" alt="${category} electrical project"></div>`;
+  return `<button class="work-slot" type="button" data-gallery="${category}" data-index="${index}" aria-pressed="false" aria-label="View ${category} project photo">
+    <img class="gallery-image" data-layer="0" src="/images/${category}/${file}" alt="${category} electrical project">
+    <img class="gallery-image" data-layer="1" alt="" aria-hidden="true">
+  </button>`;
 }).join('');
 
 const workPage = `
@@ -25,22 +28,97 @@ if (window.location.pathname.replace(/\/+$/, '') === '/work') {
   document.body.innerHTML = workPage;
   document.title = 'Our Work - RMZ Solutions';
 
-  document.querySelectorAll('[data-gallery]').forEach((image) => {
-    const category = image.dataset.gallery;
-    const images = { commercial: commercialImages, residential: residentialImages, solar: solarImages }[category];
-    let currentIndex = Number(image.dataset.index);
+  const imageSets = { commercial: commercialImages, residential: residentialImages, solar: solarImages };
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const slotsByCategory = new Map();
+  const pendingIndexesByCategory = new Map();
 
-    const rotateImage = () => {
-      let nextIndex = Math.floor(Math.random() * images.length);
-      while (images.length > 1 && nextIndex === currentIndex) {
-        nextIndex = Math.floor(Math.random() * images.length);
-      }
-      currentIndex = nextIndex;
-      image.src = `/images/${category}/${images[currentIndex]}`;
-      window.setTimeout(rotateImage, 4000 + Math.random() * 4000);
+  document.querySelectorAll('[data-gallery]').forEach((slot) => {
+    const category = slot.dataset.gallery;
+    const slots = slotsByCategory.get(category) || [];
+    slots.push({
+      element: slot,
+      currentIndex: Number(slot.dataset.index),
+      activeLayer: 0,
+      timer: null,
+      transitionTimer: null,
+    });
+    slotsByCategory.set(category, slots);
+
+    slot.addEventListener('click', () => {
+      const expanded = slot.classList.toggle('is-expanded');
+      slot.setAttribute('aria-pressed', String(expanded));
+    });
+  });
+
+  const scheduleRotation = (slotState, delay = 8000 + Math.random() * 4000) => {
+    if (reducedMotion.matches) return;
+    window.clearTimeout(slotState.timer);
+    slotState.timer = window.setTimeout(() => rotateImage(slotState), delay);
+  };
+
+  const rotateImage = (slotState) => {
+    const category = slotState.element.dataset.gallery;
+    const images = imageSets[category];
+    const visibleIndexes = new Set((slotsByCategory.get(category) || []).map((item) => item.currentIndex));
+    const pendingIndexes = pendingIndexesByCategory.get(category) || new Set();
+    const availableIndexes = images
+      .map((_, index) => index)
+      .filter((index) => !visibleIndexes.has(index) && !pendingIndexes.has(index));
+    const candidates = availableIndexes.length ? availableIndexes : images
+      .map((_, index) => index)
+      .filter((index) => index !== slotState.currentIndex && !pendingIndexes.has(index));
+
+    if (!candidates.length) {
+      scheduleRotation(slotState);
+      return;
+    }
+
+    const nextIndex = candidates[Math.floor(Math.random() * candidates.length)];
+    const nextLayer = 1 - slotState.activeLayer;
+    const nextImage = slotState.element.querySelector(`[data-layer="${nextLayer}"]`);
+    const currentImage = slotState.element.querySelector(`[data-layer="${slotState.activeLayer}"]`);
+    const nextSrc = `/images/${category}/${images[nextIndex]}`;
+    pendingIndexes.add(nextIndex);
+    pendingIndexesByCategory.set(category, pendingIndexes);
+
+    nextImage.onload = () => {
+      pendingIndexes.delete(nextIndex);
+      nextImage.alt = `${category} electrical project`;
+      nextImage.removeAttribute('aria-hidden');
+      slotState.element.dataset.activeLayer = String(nextLayer);
+      slotState.currentIndex = nextIndex;
+      slotState.activeLayer = nextLayer;
+      currentImage.alt = '';
+      currentImage.setAttribute('aria-hidden', 'true');
+      window.clearTimeout(slotState.transitionTimer);
+      slotState.transitionTimer = window.setTimeout(() => {
+        currentImage.removeAttribute('src');
+      }, 700);
+      scheduleRotation(slotState);
     };
+    nextImage.onerror = () => {
+      pendingIndexes.delete(nextIndex);
+      scheduleRotation(slotState);
+    };
+    nextImage.src = nextSrc;
+  };
 
-    window.setTimeout(rotateImage, 4000 + Math.random() * 4000);
+  slotsByCategory.forEach((slots) => {
+    slots.forEach((slotState, index) => {
+      slotState.element.dataset.activeLayer = '0';
+      scheduleRotation(slotState, 8000 + index * 650 + Math.random() * 3000);
+    });
+  });
+
+  reducedMotion.addEventListener('change', () => {
+    slotsByCategory.forEach((slots) => slots.forEach((slotState) => {
+      if (reducedMotion.matches) {
+        window.clearTimeout(slotState.timer);
+      } else {
+        scheduleRotation(slotState);
+      }
+    }));
   });
 }
 
