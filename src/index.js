@@ -27,18 +27,28 @@ const renderHomeCarousel = () => {
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const track = carousel.querySelector('[data-photo-track]');
   const sequence = shuffle(homeCarouselImages);
-  const cards = sequence.map(([category, file, alt], index) => `
+  const cards = sequence.map(([category, file, alt]) => `
     <a class="home-photo-card" href="/work/" aria-label="View ${alt.toLowerCase()} in the full gallery">
-      <img src="/images/${category}/${file}" alt="${alt}"${index > 2 ? ' loading="lazy"' : ''}>
+      <img src="/images/${category}/${file}" alt="${alt}">
     </a>
   `).join('');
   track.innerHTML = `${cards}${cards}`;
+
+  const imageReady = (image) => image.complete
+    ? Promise.resolve()
+    : new Promise((resolve) => {
+      image.addEventListener('load', resolve, { once: true });
+      image.addEventListener('error', resolve, { once: true });
+    });
 
   const updateMotion = () => {
     track.classList.toggle('is-static', reducedMotion.matches);
   };
   updateMotion();
   reducedMotion.addEventListener('change', updateMotion);
+  Promise.all([...track.querySelectorAll('img')].map(imageReady)).then(() => {
+    track.classList.add('is-ready');
+  });
 };
 
 const workPage = `
@@ -61,7 +71,6 @@ if (window.location.pathname.replace(/\/+$/, '') === '/work') {
 
   const imageSets = { commercial: commercialImages, residential: residentialImages, solar: solarImages };
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-  const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
   const slotsByCategory = new Map();
   const pendingIndexesByCategory = new Map();
 
@@ -87,12 +96,6 @@ if (window.location.pathname.replace(/\/+$/, '') === '/work') {
       transitionTimer: null,
     });
     slotsByCategory.set(category, slots);
-
-    slot.addEventListener('click', () => {
-      if (finePointer.matches) return;
-      const expanded = slot.classList.toggle('is-expanded');
-      slot.setAttribute('aria-pressed', String(expanded));
-    });
   });
 
   const scheduleRotation = (slotState, delay = 8000 + Math.random() * 4000) => {
