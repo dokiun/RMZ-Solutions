@@ -404,7 +404,7 @@ nav {
 
 .home-photo-card {
   display: block;
-  flex: 0 0 clamp(132px, 18vw, 170px);
+  flex: 0 0 clamp(165px, 22vw, 215px);
   aspect-ratio: 3 / 4;
   overflow: hidden;
   border-radius: 14px;
