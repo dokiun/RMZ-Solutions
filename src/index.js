@@ -62,7 +62,7 @@ const workPage = `
   <section class="section"><p class="section-label">Renewable Energy</p><p class="work-description">Solar panel installations, battery storage systems, and grid-tie solutions. We help customers transition to clean energy with professionally installed systems designed for long-term performance and reliability.</p><div class="work-grid">${gallery('solar', solarImages)}</div></section>
   <!-- Home Renovations temporarily hidden until project photos are added. -->
   <div class="contact-block" id="contact"><h2>Let's talk about your project</h2><p>We respond to all requests within one business day.<br>Serving Utah County, Salt Lake County, and surrounding areas.</p><div class="contact-info"><a href="tel:+13854970937" class="contact-item">+1 385-497-0937</a><a href="mailto:rmzsolutionsllc@gmail.com" class="contact-item">rmzsolutionsllc@gmail.com</a></div><a href="mailto:rmzsolutionsllc@gmail.com" class="btn-white">Request a free estimate</a></div>
-  <footer><span>© 2026 RMZ Solutions LLC · Orem, UT</span><span>E200 &amp; B100 Licensed &amp; Insured</span></footer>
+  <footer><span>© 2026 RMZ Solutions LLC · Orem, UT</span><span class="footer-license">DOPL #14299094-5501 · E200 &amp; B100</span><span>Licensed &amp; Insured</span></footer>
 `;
 
 if (window.location.pathname.replace(/\/+$/, '') === '/work') {

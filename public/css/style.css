@@ -515,6 +515,10 @@ footer span {
   color: var(--gray-500);
 }
 
+.footer-license {
+  white-space: nowrap;
+}
+
 /* RESPONSIVE */
 @media (max-width: 600px) {
   nav { padding: 0 1rem; }
@@ -548,4 +552,5 @@ footer span {
   .contact-block { width: calc(100% - 2rem); margin: 0 1rem 2.5rem; padding: 2rem 1.25rem; }
   .contact-info { flex-direction: column; align-items: center; gap: 1rem; }
   footer { padding: 1.25rem 1rem; }
+  footer span { width: 100%; }
 }
