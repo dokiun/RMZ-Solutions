@@ -104,8 +104,53 @@ const workPage = `
   <section class="section"><p class="section-label">Residential Electrical</p><p class="work-description">New construction, remodels, service upgrades, and EV chargers — all permitted and NEC-compliant. We specialize in bringing homes up to modern electrical standards with attention to safety and efficiency.</p><div class="work-grid">${gallery('residential', residentialImages)}</div></section>
   <section class="section"><p class="section-label">Renewable Energy</p><p class="work-description">Solar panel installations, battery storage systems, and grid-tie solutions. We help customers transition to clean energy with professionally installed systems designed for long-term performance and reliability.</p><div class="work-grid">${gallery('solar', solarImages)}</div></section>
   <!-- Home Renovations temporarily hidden until project photos are added. -->
-  <div class="contact-block" id="contact"><h2>Let's talk about your project</h2><p>We respond to all requests within one business day.<br>Serving Utah County, Salt Lake County, and surrounding areas.</p><div class="contact-info"><a href="tel:+13854970937" class="contact-item">+1 385-497-0937</a><a href="mailto:rmzsolutionsllc@gmail.com" class="contact-item">rmzsolutionsllc@gmail.com</a></div>${estimateForm}</div>
-  <footer>
+  <!-- CONTACT -->
+  <div class="contact-block" id="contact">
+    <h2>Let's talk about your project</h2>
+    <p>We respond to all requests within one business day.<br>Serving Utah County, Salt Lake County, and surrounding areas.</p>
+    <div class="contact-info">
+      <a href="tel:+13854970937" class="contact-item">
+        <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.55 2 2 0 0 1 3.59 1h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.5a16 16 0 0 0 6 6l.86-.86a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        +1 385-497-0937
+      </a>
+      <a href="mailto:rmzsolutionsllc@gmail.com" class="contact-item">
+        <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        rmzsolutionsllc@gmail.com
+      </a>
+    </div>
+    <form class="estimate-form" action="https://formsubmit.co/65f3be1179c5c2ff30f414fb11de2623" method="POST">
+      <input type="hidden" name="_subject" value="New estimate request from RMZ Solutions website">
+      <input type="hidden" name="_template" value="table">
+      <input type="hidden" name="_next" value="https://rmzsolutionsutah.com/thanks.html">
+      <div class="estimate-honeypot" aria-hidden="true">
+        <label for="website">Leave this field empty</label>
+        <input id="website" type="text" name="_honey" tabindex="-1" autocomplete="off">
+      </div>
+      <div class="estimate-fields">
+        <div class="estimate-field">
+          <label for="estimate-name">Name</label>
+          <input id="estimate-name" name="name" type="text" autocomplete="name" maxlength="100" required>
+        </div>
+        <div class="estimate-field">
+          <label for="estimate-email">Email</label>
+          <input id="estimate-email" name="email" type="email" autocomplete="email" maxlength="160" required>
+        </div>
+        <div class="estimate-field">
+          <label for="estimate-phone">Phone</label>
+          <input id="estimate-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" maxlength="30" required>
+        </div>
+        <div class="estimate-field">
+          <label for="estimate-city">City</label>
+          <input id="estimate-city" name="city" type="text" autocomplete="address-level2" maxlength="80" required>
+        </div>
+        <div class="estimate-field estimate-field-wide">
+          <label for="estimate-description">Describe the work</label>
+          <textarea id="estimate-description" name="description" rows="5" maxlength="2000" required></textarea>
+        </div>
+      </div>
+      <button class="btn-white estimate-submit" type="submit">Request a free estimate</button>
+    </form>
+  </div><footer>
   <span>© 2026 RMZ Solutions LLC · Orem, UT</span>
   <span class="footer-license">DOPL #14299094-5501 · E200 &amp; B100</span>
   <span>Licensed &amp; Insured</span>
